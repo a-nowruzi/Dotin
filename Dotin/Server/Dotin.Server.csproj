@@ -16,11 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Dotin.DAL\Dotin.DAL.csproj" />
+    <ProjectReference Include="..\..\Logic\Logic.csproj" />
     <ProjectReference Include="..\Client\Dotin.Client.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
 
