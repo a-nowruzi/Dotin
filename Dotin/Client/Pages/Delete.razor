@@ -1,0 +1,102 @@
+﻿@page "/delete/{userId:int}"
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@inject IToastService toastService
+
+<h2>Delete User</h2>
+<br />
+@if (user is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="form-group">
+        <h4>Do you want to delete this user?</h4>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>First Name</td>
+                    <td>@user.FirstName</td>
+                </tr>
+                <tr>
+                    <td>Last Name</td>
+                    <td>@user.LastName</td>
+                </tr>
+                <tr>
+                    <td>Mobile Number</td>
+                    <td>@user.MobileNumber</td>
+                </tr>
+                <tr>
+                    <td>E-mail</td>
+                    <td>@user.Email</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Delete" @onclick="(async () => await RemoveUser(user.UserID ?? 0))" class="btn btn-danger" />
+        <input type="submit" value="Cancel" @onclick="(() => Cancel())" class="btn btn-warning" />
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int userId { get; set; }
+    UserDto user = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            OperationResult<UserDto>? result = await Http.GetFromJsonAsync<OperationResult<UserDto>>("/api/User/" + Convert.ToInt32(userId)) ?? new();
+            if (result.ResponseCode == ResponseCode.Successful)
+            {
+                user = result.Data!;
+            }
+            else
+            {
+                toastService.ShowWarning(result.Message);
+            }
+        }
+        catch (Exception ex)
+        {
+            var result = ex.Data;
+            toastService.ShowError("Unable to fetch data");
+        }
+    }
+
+    protected async Task RemoveUser(int userID)
+    {
+        OperationResult<bool>? result = await Http.DeleteFromJsonAsync<OperationResult<bool>>("api/User/" + userID);
+        if (result != null)
+        {
+            if (result.ResponseCode == ResponseCode.Successful)
+            {
+                if (result.Data)
+                {
+                    NavigationManager.NavigateTo("/");
+                    toastService.ShowSuccess(result.Message);
+                }
+                else
+                {
+                    toastService.ShowWarning(result.Message);
+                }
+            }
+            else
+            {
+                toastService.ShowWarning(result.Message);
+            }
+        }
+        else
+        {
+            toastService.ShowError("Unable to fetch data");
+        }
+    }
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+
+}

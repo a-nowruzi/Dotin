@@ -24,28 +24,28 @@ namespace Dotin.Server.Controllers
         public async Task<IActionResult> Get(int id)
         {
             OperationResult<UserDto> result = await _user.GetUserInfo(id);
-            return StatusCode((int)result.ResponseCode, result);
+            return Ok(result);
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(UserDto user)
         {
             OperationResult<bool> result = await _user.AddUser(user);
-            return StatusCode((int)result.ResponseCode, result);
+            return Ok(result);
         }
 
         [HttpPut]
         public async Task<IActionResult> Put(UserDto user)
         {
             OperationResult<bool> result = await _user.UpdateUser(user);
-            return StatusCode((int)result.ResponseCode, result);
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             OperationResult<bool> result = await _user.DeleteUser(id);
-            return StatusCode((int)result.ResponseCode, result);
+            return Ok(result);
         }
 
     }

@@ -5,7 +5,7 @@
 <h1>Users</h1>
 <div class="row">
     <div class="col-md-6">
-        <a href='/user/create' class="btn btn-primary" role="button">
+        <a href='/create' class="btn btn-primary" role="button">
             <i class="fas fa-user-plus"></i>
             Add New User
         </a>
@@ -79,10 +79,10 @@ else
 
     protected async Task GetUser()
     {
-        result = await Http.GetFromJsonAsync<OperationResult<List<UserDto>>>("api/User");
-        if (result != null)
+        try
         {
-            userList = result.Data!;
+            result = await Http.GetFromJsonAsync<OperationResult<List<UserDto>>>("api/User");
+            userList = result!.Data!;
             if (result.ResponseCode == ResponseCode.Successful)
             {
                 searchUserData = userList;
@@ -92,8 +92,9 @@ else
                 toastService.ShowWarning(result.Message);
             }
         }
-        else
+        catch (HttpRequestException ex)
         {
+            var result = ex.Data;
             toastService.ShowError("Unable to fetch data");
         }
     }
