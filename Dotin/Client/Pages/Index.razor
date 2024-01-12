@@ -1,9 +1,123 @@
 ﻿@page "/"
+@inject HttpClient Http
+@inject IToastService toastService
 
-<PageTitle>Index</PageTitle>
+<h1>Users</h1>
+<div class="row">
+    <div class="col-md-6">
+        <a href='/user/add' class="btn btn-primary" role="button">
+            <i class="fas fa-user-plus"></i>
+            Add New User
+        </a>
+    </div>
+    <div class="input-group col">
+        <input type="text" class="form-control" placeholder="Search user by name"
+               @bind="searchString" @bind:event="oninput" @onkeyup="FilterUser" />
+        @if (searchString.Length > 0)
+        {
+            <div class="input-group-append">
+                <button class="btn btn-danger" @onclick="ResetSearch">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        }
+    </div>
+</div>
+<br />
 
-<h1>Hello, world!</h1>
+@if (result is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped align-middle table-bordered">
+        <thead class="table-success">
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Mobile Number</th>
+                <th>E-mail</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (UserDto item in userList)
+            {
+                <tr>
+                    <td>@item.UserID</td>
+                    <td>@item.FirstName</td>
+                    <td>@item.LastName</td>
+                    <td>@item.MobileNumber</td>
+                    <td>@item.Email</td>
+                    <td>
+                        <a href='/user/edit/@user.UserID' class="btn btn-outline-dark" role="button">
+                            Edit
+                        </a>
+                        <a href='/user/delete/@user.UserID' class="btn btn-outline-danger" role="button">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
-Welcome to your new app.
+@code {
+    OperationResult<List<UserDto>>? result;
+    protected List<UserDto> userList = new();
+    protected List<UserDto> searchUserData = new();
+    protected UserDto user = null!;
+    protected string searchString { get; set; } = string.Empty;
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    protected override async Task OnInitializedAsync()
+    {
+        await GetUser();
+    }
+
+    protected async Task GetUser()
+    {
+        result = await Http.GetFromJsonAsync<OperationResult<List<UserDto>>>("api/User");
+        if (result != null)
+        {
+            userList = result.Data!;
+            if (result.ResponseCode == ResponseCode.Successful)
+            {
+                searchUserData = userList;
+            }
+            else
+            {
+                toastService.ShowWarning(result.Message);
+            }
+        }
+        else
+        {
+            toastService.ShowError("Unable to fetch data");
+        }
+    }
+
+    protected void FilterUser()
+    {
+        if (!string.IsNullOrEmpty(searchString))
+        {
+            userList = searchUserData.Where(x => x.FirstName.Contains(searchString) || x.LastName.Contains(searchString)).ToList();
+        }
+        else
+        {
+            userList = searchUserData;
+        }
+    }
+
+    protected void DeleteConfirm(int userID)
+    {
+        user = userList?.FirstOrDefault(x => x.UserID == userID)!;
+    }
+
+    public void ResetSearch()
+    {
+        searchString = string.Empty;
+        userList = searchUserData;
+    }
+
+}

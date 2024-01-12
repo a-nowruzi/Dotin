@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotin.Server", "Dotin\Server\Dotin.Server.csproj", "{393F0235-79B1-4AA1-9160-B8DE1F17EB67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dotin.Server", "Dotin\Server\Dotin.Server.csproj", "{393F0235-79B1-4AA1-9160-B8DE1F17EB67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotin.Client", "Dotin\Client\Dotin.Client.csproj", "{3EFE7C23-159D-416A-AE33-7B54CD8233F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dotin.Client", "Dotin\Client\Dotin.Client.csproj", "{3EFE7C23-159D-416A-AE33-7B54CD8233F5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04.Documents", "04.Documents", "{799B4040-9F2F-4E89-927E-AC61613B47B0}"
 EndProject
@@ -15,11 +15,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01.Core", "01.Core", "{88F5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02.Data", "02.Data", "{0DA516B6-57A6-40D2-B967-A18ECD1E5F9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotin.DAL", "Dotin.DAL\Dotin.DAL.csproj", "{15C5B0F5-7704-4ECE-B9E4-7DBA33904568}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dotin.DAL", "Dotin.DAL\Dotin.DAL.csproj", "{15C5B0F5-7704-4ECE-B9E4-7DBA33904568}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{3574C95F-2C00-4207-8EFB-055EEA4BDCD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{3574C95F-2C00-4207-8EFB-055EEA4BDCD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Logic\Logic.csproj", "{6F5205E7-341D-423C-AF26-97688DD7C845}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "Logic\Logic.csproj", "{6F5205E7-341D-423C-AF26-97688DD7C845}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
