@@ -21,12 +21,14 @@ namespace Logic.Services
             OperationResult<List<UserDto>> result = new();
             try
             {
-                result.Data = await _db.Users.Select(x => new UserDto(x.UserID,
-                                                                      x.FirstName,
-                                                                      x.LastName,
-                                                                      x.MobileNumber,
-                                                                      x.Email))
-                                             .ToListAsync();
+                result.Data = await _db.Users.Select(x => new UserDto()
+                {
+                    UserID = x.UserID,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    MobileNumber = x.MobileNumber,
+                    Email = x.Email
+                }).ToListAsync();
                 result.Message = "اطلاعات با موفقیت دریافت شد";
                 result.ResponseCode = ResponseCode.Successful;
             }
@@ -129,11 +131,14 @@ namespace Logic.Services
                 User? user = await _db.Users.FindAsync(userID);
                 if (user is not null)
                 {
-                    result.Data = new(user.UserID,
-                                      user.FirstName,
-                                      user.LastName,
-                                      user.MobileNumber,
-                                      user.Email);
+                    result.Data = new()
+                    {
+                        UserID = user.UserID,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        MobileNumber = user.MobileNumber,
+                        Email = user.Email
+                    };
                     result.Message = "کاربر یافت شد";
                     result.ResponseCode = ResponseCode.Successful;
                 }
