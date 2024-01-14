@@ -1,5 +1,17 @@
-You can create DataBase using this query:
+# Dotin Hiring Test
 
+Users crud project.
+
+## Technologies
+
+This project has been developed on Blazor web assembly, using .net 7
+
+
+## Database
+
+Create database tables using the query below.
+
+```sql
 CREATE TABLE [dbo].[Users](
     [UserID] [int] IDENTITY(1,1) NOT NULL,
     [FirstName] [nvarchar](50) NOT NULL,
@@ -11,3 +23,12 @@ CREATE TABLE [dbo].[Users](
         [UserID] ASC
     )
 )
+```
+
+## Architecture
+
+This project follows clean architecture standards.
+
+## License
+
+[Dotin](https://dotin.ir/)
