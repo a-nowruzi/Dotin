@@ -92,9 +92,8 @@ else
                 toastService.ShowWarning(result.Message);
             }
         }
-        catch (HttpRequestException ex)
+        catch (HttpRequestException)
         {
-            var result = ex.Data;
             toastService.ShowError("Unable to fetch data");
         }
     }

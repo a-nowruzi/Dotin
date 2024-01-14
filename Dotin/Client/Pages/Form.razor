@@ -43,6 +43,10 @@
     </div>
 </EditForm>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
 @code {
     [Parameter]
     public int userId { get; set; }
@@ -72,9 +76,8 @@
                     toastService.ShowWarning(result.Message);
                 }
             }
-            catch (HttpRequestException ex)
+            catch (HttpRequestException)
             {
-                var result = ex.Data;
                 toastService.ShowError("Unable to fetch data");
             }
         }
@@ -82,15 +85,22 @@
 
     protected async Task SaveUser()
     {
-        if (user.UserID != null && user.UserID != 0)
+        try
         {
-            await Http.PutAsJsonAsync("api/User", user);
+            if (user.UserID != null && user.UserID != 0)
+            {
+               await Http.PutAsJsonAsync("api/User", user);
+            }
+            else
+            {
+                await Http.PostAsJsonAsync("api/User", user);
+            }
+            Cancel();
         }
-        else
+        catch (HttpRequestException)
         {
-            await Http.PostAsJsonAsync("api/User", user);
+            toastService.ShowError("Unable to fetch data");
         }
-        Cancel();
     }
 
     public void Cancel()

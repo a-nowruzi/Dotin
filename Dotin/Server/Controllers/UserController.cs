@@ -15,37 +15,38 @@ namespace Dotin.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<OperationResult<List<UserDto>>> Get()
+        public async Task<IActionResult> Get()
         {
-            return await _user.GetUsers();
+            OperationResult<List<UserDto>> result = await _user.GetUsers();
+            return StatusCode((int)result.ResponseCode, result);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             OperationResult<UserDto> result = await _user.GetUserInfo(id);
-            return Ok(result);
+            return StatusCode((int)result.ResponseCode, result);
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(UserDto user)
         {
             OperationResult<bool> result = await _user.AddUser(user);
-            return Ok(result);
+            return StatusCode((int)result.ResponseCode, result);
         }
 
         [HttpPut]
         public async Task<IActionResult> Put(UserDto user)
         {
             OperationResult<bool> result = await _user.UpdateUser(user);
-            return Ok(result);
+            return StatusCode((int)result.ResponseCode, result);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             OperationResult<bool> result = await _user.DeleteUser(id);
-            return Ok(result);
+            return StatusCode((int)result.ResponseCode, result);
         }
 
     }

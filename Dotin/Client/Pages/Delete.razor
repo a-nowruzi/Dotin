@@ -59,18 +59,17 @@ else
                 toastService.ShowWarning(result.Message);
             }
         }
-        catch (Exception ex)
+        catch (HttpRequestException)
         {
-            var result = ex.Data;
             toastService.ShowError("Unable to fetch data");
         }
     }
 
     protected async Task RemoveUser(int userID)
     {
-        OperationResult<bool>? result = await Http.DeleteFromJsonAsync<OperationResult<bool>>("api/User/" + userID);
-        if (result != null)
+        try
         {
+            OperationResult<bool>? result = await Http.DeleteFromJsonAsync<OperationResult<bool>>("api/User/" + userID) ?? new();
             if (result.ResponseCode == ResponseCode.Successful)
             {
                 if (result.Data)
@@ -88,7 +87,7 @@ else
                 toastService.ShowWarning(result.Message);
             }
         }
-        else
+        catch (HttpRequestException)
         {
             toastService.ShowError("Unable to fetch data");
         }
